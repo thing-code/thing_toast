@@ -42,39 +42,44 @@ class HomePage extends StatelessWidget {
           child: SizedBox.expand(
             child: Column(
               spacing: 12,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FilledButton(
                   onPressed: () {
-                    ThingToast(context).success(
+                    ThingToast.success(
+                      context,
                       title: 'This is Success Toast',
-                      subtitle: 'This is the description',
+                      message: 'This is the description',
                     );
                   },
                   child: Text('Show Success Toast'),
                 ),
                 FilledButton(
                   onPressed: () {
-                    ThingToast(context).info(
+                    ThingToast.info(
+                      context,
                       title: 'This is Information Toast',
-                      subtitle: 'This is the description',
+                      message: 'This is the description',
                     );
                   },
                   child: Text('Show Info Toast'),
                 ),
                 FilledButton(
                   onPressed: () {
-                    ThingToast(context).warning(
+                    ThingToast.warning(
+                      context,
                       title: 'This is Warning Toast',
-                      subtitle: 'This is the description',
+                      message: 'This is the description',
                     );
                   },
                   child: Text('Show Warning Toast'),
                 ),
                 FilledButton(
                   onPressed: () {
-                    ThingToast(context).error(
+                    ThingToast.error(
+                      context,
                       title: 'This is Error Toast',
-                      subtitle: 'This is the description',
+                      message: 'This is the description',
                     );
                   },
                   child: Text('Show Error Toast'),

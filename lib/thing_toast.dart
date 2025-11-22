@@ -2,182 +2,126 @@ import 'package:flutter/material.dart';
 import 'package:thing_toast/src/toast_params.dart';
 import 'package:thing_toast/src/toast_type.dart';
 import 'package:thing_toast/src/toast_wrapper.dart';
+import 'package:uuid/v4.dart';
 
 /// Class To Call Toast
 class ThingToast {
-  final BuildContext context;
+  static final ThingToast _instance = ThingToast._internal();
+  factory ThingToast() => _instance;
+  ThingToast._internal();
 
-  ThingToast(this.context);
+  /// State of toast list
+  final ValueNotifier<List<ToastParams>> notifier = ValueNotifier([]);
+  OverlayEntry? _overlayEntry;
 
-  final List<ToastParams> _queue = [];
+  /// Function to show success toast
+  static void success(
+    BuildContext context, {
+    required String message,
+    String? title,
+    Widget? icon,
+    Duration duration = const Duration(seconds: 4),
+  }) {
+    _instance._show(context, message, title, icon, ToastType.success, duration);
+  }
 
-  bool _isShowing = false;
+  /// Function to show warning toast
+  static void warning(
+    BuildContext context, {
+    required String message,
+    String? title,
+    Widget? icon,
+    Duration duration = const Duration(seconds: 4),
+  }) {
+    _instance._show(context, message, title, icon, ToastType.warning, duration);
+  }
 
-  /// Function to enqueue toast
-  void _enqueue(ToastParams toast) {
-    _queue.add(toast);
+  /// Function to show info toast
+  static void info(
+    BuildContext context, {
+    required String message,
+    String? title,
+    Widget? icon,
+    Duration duration = const Duration(seconds: 4),
+  }) {
+    _instance._show(context, message, title, icon, ToastType.info, duration);
+  }
 
-    if (!_isShowing) {
-      _showOverlay();
+  /// Function to show error toast
+  static void error(
+    BuildContext context, {
+    required String message,
+    String? title,
+    Widget? icon,
+    Duration duration = const Duration(seconds: 4),
+  }) {
+    _instance._show(context, message, title, icon, ToastType.error, duration);
+  }
+
+  /// Function to dismiss toast manually
+  static void dismiss(String id) {
+    _instance._removeToast(id);
+  }
+
+  // Base Function to show a toast
+  void _show(
+    BuildContext context,
+    String message,
+    String? title,
+    Widget? icon,
+    ToastType type,
+    Duration duration,
+  ) {
+    // Check overlayEntry
+    if (_overlayEntry == null) {
+      _overlayEntry = _createOverlayEntry(context);
+      Overlay.of(context).insert(_overlayEntry!);
+    }
+
+    // Set parameter for toast with unique id
+    final newToast = ToastParams(
+      id: UuidV4().generate(),
+      message: message,
+      title: title,
+      type: type,
+      icon: icon,
+      duration: duration,
+    );
+
+    final currentList = List<ToastParams>.from(notifier.value);
+    currentList.insert(0, newToast);
+    notifier.value = currentList;
+  }
+
+  void _removeToast(String id) {
+    final currentList = List<ToastParams>.from(notifier.value);
+    currentList.removeWhere((element) => element.id == id);
+    notifier.value = currentList;
+
+    if (currentList.isEmpty) {
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (notifier.value.isEmpty && _overlayEntry != null) {
+          _overlayEntry?.remove();
+          _overlayEntry = null;
+        }
+      });
     }
   }
 
-  /// Function to show toast in overlay
-  void _showOverlay() {
-    if (_queue.isEmpty) {
-      _isShowing = false;
-      return;
-    }
+  OverlayEntry _createOverlayEntry(BuildContext context) {
+    // [BARU] Ambil padding atas (SafeArea)
+    final topPadding = MediaQuery.of(context).padding.top;
 
-    _isShowing = true;
-
-    final params = _queue.removeAt(0);
-
-    OverlayEntry? overlay;
-
-    overlay = OverlayEntry(
+    return OverlayEntry(
       builder: (context) {
-        return ToastWrapper(
-          title: params.title,
-          duration: params.duration,
-          curve: params.curve,
-          subtitle: params.subtitle,
-          icon: params.icon,
-          onDismiss: () {
-            overlay?.remove();
-            overlay = null;
-
-            _showOverlay();
-          },
-          type: params.type,
-          style: params.style,
+        return Positioned(
+          top: topPadding,
+          left: 0,
+          right: 0,
+          // Widget ini sekarang akan menghitung lebar layar sendiri
+          child: const ToastStackManager(),
         );
       },
-    );
-
-    Overlay.of(context).insert(overlay!);
-  }
-
-  /// Show Plain Toast
-  void _showToast({
-    required ToastType type,
-    required String title,
-    required Duration duration,
-    required Curve curve,
-    String? subtitle,
-    Widget? icon,
-    required ToastStyle style,
-  }) {
-    final toast = ToastParams(
-      title: title,
-      duration: duration,
-      curve: curve,
-      type: type,
-      style: style,
-      subtitle: subtitle,
-      icon: icon,
-    );
-
-    _enqueue(toast);
-  }
-
-  /// Show Success Toast
-  ///
-  /// Example :
-  /// ```dart
-  /// ThingToast(context).success(title: 'This is Success Toast');
-  /// ```
-  void success({
-    required String title,
-    Duration duration = const Duration(seconds: 3),
-    Curve curve = Curves.easeInExpo,
-    String? subtitle,
-    Widget? icon,
-    ToastStyle style = const ToastStyle(),
-  }) {
-    _showToast(
-      type: ToastType.success,
-      title: title,
-      curve: curve,
-      duration: duration,
-      style: style,
-      subtitle: subtitle,
-      icon: icon,
-    );
-  }
-
-  /// Show Info Toast
-  ///
-  /// Example :
-  /// ```dart
-  /// ThingToast(context).info(title: 'This is Information Toast');
-  /// ```
-  void info({
-    required String title,
-    Duration duration = const Duration(seconds: 3),
-    Curve curve = Curves.easeInExpo,
-    String? subtitle,
-    Widget? icon,
-    ToastStyle style = const ToastStyle(),
-  }) {
-    _showToast(
-      type: ToastType.info,
-      title: title,
-      curve: curve,
-      duration: duration,
-      style: style,
-      subtitle: subtitle,
-      icon: icon,
-    );
-  }
-
-  /// Show Warning Toast
-  ///
-  /// Example :
-  /// ```dart
-  /// ThingToast(context).warning(title: 'This is Warning Toast');
-  /// ```
-  void warning({
-    required String title,
-    Duration duration = const Duration(seconds: 3),
-    Curve curve = Curves.easeInExpo,
-    String? subtitle,
-    Widget? icon,
-    ToastStyle style = const ToastStyle(),
-  }) {
-    _showToast(
-      type: ToastType.warning,
-      title: title,
-      curve: curve,
-      duration: duration,
-      style: style,
-      subtitle: subtitle,
-      icon: icon,
-    );
-  }
-
-  /// Show Error Toast
-  ///
-  /// Example :
-  /// ```dart
-  /// ThingToast(context).error(title: 'This is Error Toast');
-  /// ```
-  void error({
-    required String title,
-    Duration duration = const Duration(seconds: 3),
-    Curve curve = Curves.easeInExpo,
-    String? subtitle,
-    Widget? icon,
-    ToastStyle style = const ToastStyle(),
-  }) {
-    _showToast(
-      type: ToastType.error,
-      title: title,
-      curve: curve,
-      duration: duration,
-      style: style,
-      subtitle: subtitle,
-      icon: icon,
     );
   }
 }

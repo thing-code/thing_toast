@@ -1,132 +1,140 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:thing_toast/src/toast_params.dart';
-import 'package:thing_toast/src/toast_type.dart';
 import 'package:thing_toast/src/toast_widget.dart';
+import 'package:thing_toast/thing_toast.dart';
 
 /// Widget for toast animation and position
-class ToastWrapper extends StatefulWidget {
-  const ToastWrapper({
-    super.key,
-    required this.title,
-    required this.duration,
-    required this.curve,
-    this.subtitle,
-    this.icon,
-    required this.onDismiss,
-    required this.type,
-    required this.style,
-  });
-
-  final String title;
-  final Duration duration;
-  final Curve curve;
-  final String? subtitle;
-  final Widget? icon;
-  final VoidCallback onDismiss;
-  final ToastType type;
-  final ToastStyle style;
+class ToastStackManager extends StatelessWidget {
+  const ToastStackManager({super.key});
 
   @override
-  State<ToastWrapper> createState() => _ToastWrapperState();
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return ValueListenableBuilder<List<ToastParams>>(
+      valueListenable: ThingToast().notifier,
+      builder: (context, toasts, child) {
+        final visibleToasts = toasts.take(3).toList();
+
+        return Center(
+          child: SizedBox(
+            width: screenWidth, // Lebar dinamis
+            height: 150,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                for (int i = visibleToasts.length - 1; i >= 0; i--)
+                  _ToastCardAnimationWrapper(
+                    key: ValueKey(visibleToasts[i].id),
+                    data: visibleToasts[i],
+                    index: i,
+                    isFront: i == 0,
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
-class _ToastWrapperState extends State<ToastWrapper>
-    with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Offset> _position;
+/// Widget to control animation of the toast
+class _ToastCardAnimationWrapper extends StatefulWidget {
+  final ToastParams data;
+  final int index;
+  final bool isFront;
 
-  final ScrollController _scrollController = ScrollController();
+  const _ToastCardAnimationWrapper({
+    required Key key,
+    required this.data,
+    required this.index,
+    required this.isFront,
+  }) : super(key: key);
+
+  @override
+  State<_ToastCardAnimationWrapper> createState() =>
+      _ToastCardAnimationWrapperState();
+}
+
+class _ToastCardAnimationWrapperState
+    extends State<_ToastCardAnimationWrapper> {
+  Timer? _timer;
+  bool _isHovered = false;
+  bool _isDragging = false;
 
   @override
   void initState() {
     super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-
-    _position = Tween<Offset>(begin: Offset(0, -1), end: Offset.zero).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: widget.curve,
-        reverseCurve: widget.curve.flipped,
-      ),
-    );
-
-    _controller.forward();
-
-    Future.delayed(widget.duration, () {
-      if (mounted) _dismissAlert();
-    });
-
-    _scrollController.addListener(() {
-      if (_scrollController.offset > 30) {
-        _dismissAlert();
-      }
-    });
+    _startTimer();
   }
 
-  void _dismissAlert() {
-    _controller.reverse().then((_) {
-      if (mounted) widget.onDismiss();
+  void _startTimer() {
+    _timer?.cancel();
+    _timer = Timer(widget.data.duration, () {
+      if (!_isHovered && !_isDragging) {
+        ThingToast.dismiss(widget.data.id);
+      }
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _scrollController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: 16,
-      right: 16,
-      top: 0,
-      child: SlideTransition(
-        position: _position,
-        child: SingleChildScrollView(
-          clipBehavior: Clip.none,
-          controller: _scrollController,
-          physics: AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics(),
-          ),
-          child: _child,
-        ),
-      ),
-    );
-  }
+    final double scale = 1.0 - (widget.index * 0.05);
+    final double topOffset = widget.index * 14.0;
+    final double hoverTopOffset = widget.index * 45.0;
 
-  // Child widget depends on Platform
-  Widget get _child {
-    if (Platform.isAndroid) {
-      return Material(color: Colors.transparent, child: _baseToast());
-    }
-
-    return _baseToast();
-  }
-
-  // Base Widget of the Toast Wrapper
-  Widget _baseToast() {
-    return SafeArea(
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.only(top: 8),
-          width: double.infinity,
-          child: ToastWidget(
-            title: widget.title,
-            type: widget.type,
-            icon: widget.icon,
-            subtitle: widget.subtitle,
-            subtitleMaxLines: widget.style.subtitleMaxLines,
-            titleMaxLines: widget.style.titleMaxLines,
-            subtitleTextStyle: widget.style.subtitleTextStyle,
-            titleTextStyle: widget.style.titleTextStyle,
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOutBack,
+      top: _isHovered ? hoverTopOffset : topOffset,
+      child: AnimatedScale(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutBack,
+        scale: scale,
+        alignment: Alignment.topCenter,
+        child: Dismissible(
+          key: ValueKey(widget.data.id),
+          direction: DismissDirection.up,
+          onDismissed: (_) {
+            ThingToast.dismiss(widget.data.id);
+          },
+          onResize: () => _isDragging = true,
+          child: MouseRegion(
+            onEnter: (_) {
+              setState(() => _isHovered = true);
+              _timer?.cancel();
+            },
+            onExit: (_) {
+              setState(() => _isHovered = false);
+              _startTimer();
+            },
+            child: GestureDetector(
+              onLongPressDown: (_) {
+                setState(() => _isDragging = true);
+                _timer?.cancel();
+              },
+              onLongPressEnd: (_) {
+                setState(() => _isDragging = false);
+                _startTimer();
+              },
+              // [BARU] Kirim width ke content
+              child: ToastWidget(
+                message: widget.data.message,
+                type: widget.data.type,
+                icon: widget.data.icon,
+                title: widget.data.title,
+                titleTextStyle: widget.data.style.titleTextStyle,
+                messageTextStyle: widget.data.style.messageTextStyle,
+              ),
+            ),
           ),
         ),
       ),

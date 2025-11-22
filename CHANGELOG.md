@@ -1,3 +1,10 @@
+## 1.0.0
+First Major Version with a lot of improvement at style and behaviour.
+Inspired by Sonner from Shadcn.
+* Implement sonner style (Stacked Toast)
+* New animations
+* remove `ToastPosition`, default position at the top
+
 ## 0.4.0
 * Add Custom Widget Icon parameters.
 

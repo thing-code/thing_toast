@@ -7,35 +7,24 @@ class ToastStyle {
   final TextStyle? titleTextStyle;
 
   /// Custom Subtitle Text Style
-  final TextStyle? subtitleTextStyle;
+  final TextStyle? messageTextStyle;
 
-  /// Title Max Lines, default is `3`
-  final int titleMaxLines;
-
-  /// Subtitle Max Lines, default is `3`
-  final int subtitleMaxLines;
-
-  const ToastStyle({
-    this.titleTextStyle,
-    this.subtitleTextStyle,
-    this.titleMaxLines = 3,
-    this.subtitleMaxLines = 3,
-  });
+  const ToastStyle({this.titleTextStyle, this.messageTextStyle});
 }
 
 /// Parameter Class for Toast
 class ToastParams {
+  // Toast Id
+  final String id;
+
   /// Toast Title
-  final String title;
+  final String? title;
 
   /// Duration of showing Toast
   final Duration duration;
 
-  /// Curves Animation for Toast
-  final Curve curve;
-
   /// Toast Subtitle
-  final String? subtitle;
+  final String message;
 
   /// Type of the Toast
   final ToastType type;
@@ -47,12 +36,12 @@ class ToastParams {
   final Widget? icon;
 
   const ToastParams({
-    required this.title,
+    this.title,
     required this.duration,
-    required this.curve,
-    this.subtitle,
+    required this.message,
     this.icon,
     required this.type,
     this.style = const ToastStyle(),
+    required this.id,
   });
 }
