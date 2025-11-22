@@ -4,9 +4,10 @@ A package for showing fancy gradient toast in Flutter applications.
 
 Show 4 Type of Toast : Success, Info, Warning and Error.
 
-<p align='center'>
-    <img src="screenshots/ios-toast.gif" width="300" />
-</p>
+| Plaform      | Preview      |
+|--------------|--------------|
+| iOS | <img src="screenshots/ios-toast.gif" width="300" /> |
+| Android | <img src="screenshots/android-toast.gif" width="300" /> |
 
 ## Getting started
 
@@ -14,7 +15,7 @@ Add to your dependencies:
 
 ```yaml
 dependencies:
-  thing_toast: ^0.1.0
+  thing_toast: ^1.0.0
 ```
 
 Then import:
@@ -28,7 +29,8 @@ import 'package:thing_toast/thing_toast.dart';
 To Show Success Toast:
 
 ```dart
-ThingToast(context).success(
+ThingToast.success(
+  context,
   title: 'This is Toast',
   subtitle: 'This is the description',
 );
@@ -36,7 +38,8 @@ ThingToast(context).success(
 To Show Info Toast:
 
 ```dart
-ThingToast(context).info(
+ThingToast.info(
+  context,
   title: 'This is Toast',
   subtitle: 'This is the description',
 );
@@ -44,7 +47,8 @@ ThingToast(context).info(
 To Show Warning Toast:
 
 ```dart
-ThingToast(context).warning(
+ThingToast.warning(
+  context,
   title: 'This is Toast',
   subtitle: 'This is the description',
 );
@@ -52,7 +56,8 @@ ThingToast(context).warning(
 To Show Error Toast:
 
 ```dart
-ThingToast(context).error(
+ThingToast.error(
+  context,
   title: 'This is Toast',
   subtitle: 'This is the description',
 );
