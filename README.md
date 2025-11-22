@@ -15,7 +15,7 @@ Add to your dependencies:
 
 ```yaml
 dependencies:
-  thing_toast: ^1.0.0
+  thing_toast: ^1.0.1
 ```
 
 Then import:

@@ -1,3 +1,9 @@
+## 1.0.1
+BREAKING CHANGES
+* minimum dart sdk version `3.10.0`.
+* move `BuildContext` from constructor to each function.
+* update description
+
 ## 1.0.0
 First Major Version with a lot of improvement at style and behaviour.
 Inspired by Sonner from Shadcn.
