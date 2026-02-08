@@ -1,4 +1,4 @@
-## 1.0.1
+## 1.0.2
 * Decrease border width from 1.5 to 1
 * Add more space on top of the toast
 
