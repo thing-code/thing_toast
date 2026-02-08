@@ -1,6 +1,6 @@
 name: thing_toast
 description: "Package for Fancy Gradient Toast. Inspired by Sonner from Shandcn. 4 Types of Toast: Succes, Info, Warning, and Error."
-version: 1.0.1
+version: 1.0.2
 repository: https://github.com/codestrdy/thing_toast
 
 environment:

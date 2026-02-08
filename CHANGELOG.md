@@ -1,4 +1,8 @@
 ## 1.0.1
+* Decrease border width from 1.5 to 1
+* Add more space on top of the toast
+
+## 1.0.1
 BREAKING CHANGES
 * minimum dart sdk version `3.10.0`.
 * move `BuildContext` from constructor to each function.

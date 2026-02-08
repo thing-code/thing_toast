@@ -19,7 +19,7 @@ class ToastStackManager extends StatelessWidget {
 
         return Center(
           child: SizedBox(
-            width: screenWidth, // Lebar dinamis
+            width: screenWidth,
             height: 150,
             child: Stack(
               alignment: Alignment.topCenter,
@@ -88,8 +88,8 @@ class _ToastCardAnimationWrapperState
   @override
   Widget build(BuildContext context) {
     final double scale = 1.0 - (widget.index * 0.05);
-    final double topOffset = widget.index * 14.0;
-    final double hoverTopOffset = widget.index * 45.0;
+    final double topOffset = widget.index * 16.0;
+    final double hoverTopOffset = widget.index * 48.0;
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
@@ -125,7 +125,6 @@ class _ToastCardAnimationWrapperState
                 setState(() => _isDragging = false);
                 _startTimer();
               },
-              // [BARU] Kirim width ke content
               child: ToastWidget(
                 message: widget.data.message,
                 type: widget.data.type,

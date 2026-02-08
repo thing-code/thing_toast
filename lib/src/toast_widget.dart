@@ -56,7 +56,7 @@ class ToastWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: type.color,
-          width: 1.5,
+          width: 1,
           strokeAlign: BorderSide.strokeAlignCenter,
         ),
         boxShadow: boxShadow,

@@ -36,6 +36,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Platform.isIOS
+          ? CupertinoNavigationBar(middle: Text('Thing Toast'))
+          : AppBar(title: Text('Thing Toast')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

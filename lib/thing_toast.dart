@@ -109,8 +109,7 @@ class ThingToast {
   }
 
   OverlayEntry _createOverlayEntry(BuildContext context) {
-    // [BARU] Ambil padding atas (SafeArea)
-    final topPadding = MediaQuery.of(context).padding.top;
+    final topPadding = MediaQuery.of(context).padding.top + 8;
 
     return OverlayEntry(
       builder: (context) {
