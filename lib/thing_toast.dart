@@ -74,7 +74,7 @@ class ThingToast {
   ) {
     // Check overlayEntry
     if (_overlayEntry == null) {
-      _overlayEntry = _createOverlayEntry(context);
+      _overlayEntry = _createOverlayEntry();
       Overlay.of(context).insert(_overlayEntry!);
     }
 
@@ -108,11 +108,10 @@ class ThingToast {
     }
   }
 
-  OverlayEntry _createOverlayEntry(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top + 8;
-
+  OverlayEntry _createOverlayEntry() {
     return OverlayEntry(
       builder: (context) {
+        final topPadding = MediaQuery.of(context).padding.top;
         return Positioned(
           top: topPadding,
           left: 0,

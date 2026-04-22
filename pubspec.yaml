@@ -1,16 +1,17 @@
 name: thing_toast
-description: "Package for Fancy Gradient Toast. Inspired by Sonner from Shandcn. 4 Types of Toast: Succes, Info, Warning, and Error."
-version: 1.0.2
+description: "Package for Fancy Gradient Toast. Inspired by Sonner from Shandcn.
+  4 Types of Toast: Succes, Info, Warning, and Error."
+version: 1.0.3
 repository: https://github.com/codestrdy/thing_toast
 
 environment:
-  sdk: ^3.10.0
+  sdk: ^3.11.0
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  uuid: ^4.5.2
+  uuid: ^4.5.3
 
 dev_dependencies:
   flutter_test:

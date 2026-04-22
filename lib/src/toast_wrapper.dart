@@ -12,6 +12,8 @@ class ToastStackManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return ValueListenableBuilder<List<ToastParams>>(
       valueListenable: ThingToast().notifier,
       builder: (context, toasts, child) {
@@ -20,7 +22,7 @@ class ToastStackManager extends StatelessWidget {
         return Center(
           child: SizedBox(
             width: screenWidth,
-            height: 150,
+            height: screenHeight / 4,
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
@@ -88,7 +90,7 @@ class _ToastCardAnimationWrapperState
   @override
   Widget build(BuildContext context) {
     final double scale = 1.0 - (widget.index * 0.05);
-    final double topOffset = widget.index * 16.0;
+    final double topOffset = widget.index * 12.0;
     final double hoverTopOffset = widget.index * 48.0;
 
     return AnimatedPositioned(

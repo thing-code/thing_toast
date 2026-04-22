@@ -45,9 +45,9 @@ class ToastWidget extends StatelessWidget {
     ];
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       constraints: BoxConstraints(
-        minHeight: 48,
+        minHeight: 56,
         maxHeight: 150,
         maxWidth: MediaQuery.sizeOf(context).width - 32,
       ),

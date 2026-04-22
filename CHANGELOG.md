@@ -1,3 +1,7 @@
+## 1.0.3
+* Adjust ToastWidget height and padding
+* minimum dart sdk version `3.11.0`
+
 ## 1.0.2
 * Decrease border width from 1.5 to 1
 * Add more space on top of the toast
