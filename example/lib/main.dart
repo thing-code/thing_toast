@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
           : AppBar(title: Text('Thing Toast')),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const .all(16.0),
           child: SizedBox.expand(
             child: Column(
               spacing: 12,
@@ -50,42 +50,22 @@ class HomePage extends StatelessWidget {
                 FilledButton(
                   onPressed: () {
                     ThingToast.success(
-                      context,
-                      title: 'This is Success Toast',
-                      message: 'This is the description',
+                      context: context,
+                      message: "This is the snack",
+                      icon: Icons.info,
                     );
                   },
-                  child: Text('Show Success Toast'),
+                  child: Text('Show Toast'),
                 ),
                 FilledButton(
                   onPressed: () {
                     ThingToast.info(
-                      context,
-                      title: 'This is Information Toast',
-                      message: 'This is the description',
+                      context: context,
+                      message: "This is the wallhack",
+                      icon: Icons.wallet,
                     );
                   },
-                  child: Text('Show Info Toast'),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    ThingToast.warning(
-                      context,
-                      title: 'This is Warning Toast',
-                      message: 'This is the description',
-                    );
-                  },
-                  child: Text('Show Warning Toast'),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    ThingToast.error(
-                      context,
-                      title: 'This is Error Toast',
-                      message: 'This is the description',
-                    );
-                  },
-                  child: Text('Show Error Toast'),
+                  child: Text('Show Toast'),
                 ),
               ],
             ),
