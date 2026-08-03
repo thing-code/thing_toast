@@ -2,7 +2,7 @@ name: thing_toast
 description:
   "Implementation of Material 3 Expressive Toast. Inspired by Sonner from Shandcn.
   4 Types of Toast: Succes, Info, Warning, and Error."
-version: 1.1.0
+version: 1.1.1
 repository: https://github.com/thing_code/thing_toast
 
 environment:

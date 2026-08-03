@@ -96,7 +96,14 @@ void _showToast({
   ToastPosition position = ToastPosition.bottom,
   ToastType? type,
 }) {
-  final OverlayState overlay = Overlay.of(context, rootOverlay: true);
+  if (!context.mounted) return;
+
+  final OverlayState? overlay = Overlay.maybeOf(context, rootOverlay: true);
+
+  assert(overlay != null, 'ThingToast: no Overlay found above this context.');
+
+  if (overlay == null) return;
+
   final List<Toast> alive = ToastOverlay.aliveAt(position);
 
   // A duplicate does not add a pill. The one already saying it comes to
