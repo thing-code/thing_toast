@@ -1,3 +1,7 @@
+## 1.2.0
+BREAKING CHANGES
+* Update dart sdk version to `3.13.4`
+
 ## 1.1.1
 Fixed
 * Replaced `Overlay.of(context, rootOverlay: true)` with `Overlay.maybeOf(context, rootOverlay: true)` guarded by an assert and a null check, so a context with no Overlay ancestor (e.g. in a misconfigured test harness) fails loudly in debug/profile builds via the assertion, but degrades to a no-op instead of crashing in release.
