@@ -5,20 +5,38 @@ import 'toast_view.dart';
 /// Which edge a snack pill springs in from and stacks against.
 enum ToastPosition { top, bottom }
 
-const Color _success = Color(0xFFA5D6A7);
-const Color _info = Color(0xFF90CAF9);
-const Color _warning = Color(0xFFFFD54F);
-const Color _error = Color(0xFFFF8A80);
-
 enum ToastType {
-  success(color: _success),
-  info(color: _info),
-  warning(color: _warning),
-  error(color: _error);
+  // Light-mode pill (dark background) → bright/pastel chip.
+  // Dark-mode pill  (light background) → deeper/saturated chip.
+  success(
+    colorOnDark: Color(0xFFA5D6A7), // pastel green
+    colorOnLight: Color(0xFF2E7D32), // green 800
+  ),
+  info(
+    colorOnDark: Color(0xFF90CAF9), // pastel blue
+    colorOnLight: Color(0xFF1565C0), // blue 800
+  ),
+  warning(
+    colorOnDark: Color(0xFFFFD54F), // pastel amber
+    colorOnLight: Color(0xFFF9A825), // yellow 800
+  ),
+  error(
+    colorOnDark: Color(0xFFFF8A80), // pastel red
+    colorOnLight: Color(0xFFC62828), // red 800
+  );
 
-  final Color color;
+  /// Chip color used on a dark pill background (light theme).
+  final Color colorOnDark;
 
-  const ToastType({required this.color});
+  /// Chip color used on a light pill background (dark theme).
+  final Color colorOnLight;
+
+  const ToastType({required this.colorOnDark, required this.colorOnLight});
+
+  /// Returns the chip color that contrasts well with the current
+  /// [inverseSurface] pill background.
+  Color resolveColor(Brightness brightness) =>
+      brightness == Brightness.dark ? colorOnLight : colorOnDark;
 }
 
 /// One shown snack and the key that reaches its live view.

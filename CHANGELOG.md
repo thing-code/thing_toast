@@ -1,3 +1,6 @@
+## 1.3.0
+* Update `ToastType` color for supporting both light and dark mode.
+
 ## 1.2.0
 BREAKING CHANGES
 * Update dart sdk version to `3.13.4`

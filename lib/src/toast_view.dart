@@ -236,6 +236,7 @@ class _Pill extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme cs = Theme.of(context).colorScheme;
     final TextTheme tt = Theme.of(context).textTheme;
+    final Brightness brightness = Theme.of(context).brightness;
     final IconData? icon = snack.icon;
 
     return Material(
@@ -261,7 +262,9 @@ class _Pill extends StatelessWidget {
                   width: 32,
                   height: 32,
                   decoration: ShapeDecoration(
-                    color: snack.type?.color ?? cs.inversePrimary,
+                    color:
+                        snack.type?.resolveColor(brightness) ??
+                        cs.primaryContainer,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.horizontal(
                         left: Radius.circular(20),
