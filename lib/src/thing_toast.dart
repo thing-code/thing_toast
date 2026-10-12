@@ -8,6 +8,7 @@ abstract final class ThingToast {
   static void success({
     required BuildContext context,
     required String message,
+    int? maxLines,
     IconData? icon,
     // Spec: snackbars stay visible 4-10 seconds.
     Duration duration = const Duration(seconds: 4),
@@ -24,6 +25,7 @@ abstract final class ThingToast {
   static void info({
     required BuildContext context,
     required String message,
+    int? maxLines,
     IconData? icon,
     // Spec: snackbars stay visible 4-10 seconds.
     Duration duration = const Duration(seconds: 4),
@@ -40,6 +42,7 @@ abstract final class ThingToast {
   static void warning({
     required BuildContext context,
     required String message,
+    int? maxLines,
     IconData? icon,
     // Spec: snackbars stay visible 4-10 seconds.
     Duration duration = const Duration(seconds: 4),
@@ -56,6 +59,7 @@ abstract final class ThingToast {
   static void error({
     required BuildContext context,
     required String message,
+    int? maxLines,
     IconData? icon,
     // Spec: snackbars stay visible 4-10 seconds.
     Duration duration = const Duration(seconds: 4),
@@ -90,6 +94,7 @@ abstract final class ThingToast {
 void _showToast({
   required BuildContext context,
   required String message,
+  int? maxLines,
   IconData? icon,
   // Spec: snackbars stay visible 4-10 seconds.
   Duration duration = const Duration(seconds: 4),
@@ -135,6 +140,7 @@ void _showToast({
       duration: duration,
       position: position,
       type: type,
+      maxLines: maxLines,
     ),
     overlay,
   );

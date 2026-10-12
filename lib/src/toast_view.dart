@@ -280,7 +280,7 @@ class _Pill extends StatelessWidget {
                   liveRegion: true,
                   child: Text(
                     snack.message,
-                    maxLines: 1,
+                    maxLines: snack.maxLines ?? 1,
                     overflow: .ellipsis,
                     style: tt.bodyMedium?.copyWith(
                       color: cs.onInverseSurface,

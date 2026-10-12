@@ -46,11 +46,13 @@ class Toast {
     this.icon,
     required this.duration,
     this.type,
+    this.maxLines,
     this.position = ToastPosition.bottom,
   });
 
   final GlobalKey<ToastViewState> key = GlobalKey();
   final String message;
+  final int? maxLines;
   final IconData? icon;
   final Duration duration;
   final ToastType? type;

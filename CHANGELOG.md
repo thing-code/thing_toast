@@ -1,3 +1,6 @@
+## 1.4.0
+* Add `maxLines` parameter to `ThingToast.show()` to control the number of lines in the toast message.
+
 ## 1.3.0
 * Update `ToastType` color for supporting both light and dark mode.
 
