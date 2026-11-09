@@ -53,6 +53,15 @@ abstract final class ToastOverlay {
     }
   }
 
+  static void dismiss(Toast snack) {
+    if (!snacks.value.contains(snack)) return;
+    if (snack.key.currentState == null) {
+      remove(snack);
+    } else {
+      snack.key.currentState?.dismiss();
+    }
+  }
+
   /// Re-emits the list so both piles deal depths again. Called when a
   /// pill starts dismissing, so the ones behind it spring forward right
   /// away instead of waiting for its exit to finish.

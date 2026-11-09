@@ -75,7 +75,7 @@ class ToastViewState extends State<ToastView> with TickerProviderStateMixin {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) setState(() => _visible = true);
     });
-    _timer = Timer(widget.snack.duration, dismiss);
+    _startTimer();
   }
 
   @override
@@ -99,14 +99,19 @@ class ToastViewState extends State<ToastView> with TickerProviderStateMixin {
     });
   }
 
+  void _startTimer() {
+    _timer?.cancel();
+    final Duration? duration = widget.snack.duration;
+    if (duration != null) _timer = Timer(duration, dismiss);
+  }
+
   /// The duplicate message cue: a sideways velocity impulse into a spring
   /// resting at 0, so the pill wobbles and settles on real physics instead
   /// of a keyframed shake. Also restarts the countdown, since the message
   /// just proved it is still relevant.
   void shake() {
     if (_removing) return;
-    _timer?.cancel();
-    _timer = Timer(widget.snack.duration, dismiss);
+    _startTimer();
     _shake.animateWith(
       SpringSimulation(
         const MaterialSpringMotion.expressiveSpatialFast().description,
@@ -152,7 +157,7 @@ class ToastViewState extends State<ToastView> with TickerProviderStateMixin {
         velocity,
       ),
     );
-    _timer = Timer(widget.snack.duration, dismiss);
+    _startTimer();
   }
 
   @override
@@ -250,29 +255,44 @@ class _Pill extends StatelessWidget {
           // Both paddings land on the spec's 48dp single line container
           // height: 8dp around the 32dp chip, or 14dp around the 20dp
           // body medium line when there is no chip.
-          padding: icon != null
+          padding: icon != null || snack.isLoading
               ? const .fromSTEB(8, 8, 20, 8)
               : const .symmetric(horizontal: 20, vertical: 14),
           child: Row(
             mainAxisSize: .min,
             spacing: 12,
             children: [
-              if (icon != null) ...[
+              if (snack.isLoading) ...[
+                Theme(
+                  data: ThemeData(
+                    progressIndicatorTheme: ProgressIndicatorThemeData(
+                      // The loading style explicitly opts into the newer indicator.
+                      // ignore: deprecated_member_use
+                      year2023: false,
+                      strokeWidth: 2.5,
+                      color: cs.onInverseSurface,
+                      circularTrackColor: cs.onInverseSurface.withValues(
+                        alpha: .2,
+                      ),
+                    ),
+                  ),
+                  child: CircularProgressIndicator(
+                    constraints: const BoxConstraints.tightFor(
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+              ] else if (icon != null) ...[
                 Container(
-                  width: 32,
-                  height: 32,
+                  padding: .all(8),
                   decoration: ShapeDecoration(
                     color:
                         snack.type?.resolveColor(brightness) ??
                         cs.primaryContainer,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(20),
-                        right: Radius.circular(8),
-                      ),
-                    ),
+                    shape: StadiumBorder(),
                   ),
-                  child: Icon(icon, size: 18, color: cs.inverseSurface),
+                  child: Icon(icon, size: 20, color: cs.inverseSurface),
                 ),
               ],
               Flexible(

@@ -1,3 +1,9 @@
+## 1.5.0
+* Add `ThingToast.showLoading()` with a `ToastHandle` for manually dismissing a loading toast.
+* Add `ThingToast.loading()` to show a loading toast for the lifetime of a `Future`.
+* Add a contrasting 24px loading indicator to the toast.
+* Fix `maxLines` so it is applied by the success, info, warning, and error methods.
+
 ## 1.4.0
 * Add `maxLines` parameter to `ThingToast.show()` to control the number of lines in the toast message.
 

@@ -45,6 +45,7 @@ class Toast {
     required this.message,
     this.icon,
     required this.duration,
+    this.isLoading = false,
     this.type,
     this.maxLines,
     this.position = ToastPosition.bottom,
@@ -54,7 +55,8 @@ class Toast {
   final String message;
   final int? maxLines;
   final IconData? icon;
-  final Duration duration;
+  final Duration? duration;
+  final bool isLoading;
   final ToastType? type;
 
   /// Which edge this pill enters from, peeks toward, and drags off of.

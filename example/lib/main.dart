@@ -61,11 +61,46 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     ThingToast.info(
                       context: context,
-                      message: "This is the wallhack",
+                      maxLines: 3,
+                      message: "This is the wallhack. fsosdafhasopoacaosoocvasoioidasui caiviaisus vasisidsai vasidsadisai vasidasdoi",
                       icon: Icons.wallet,
                     );
                   },
                   child: Text('Show Toast'),
+                ),
+                FilledButton(
+                  onPressed: () async {
+                    await ThingToast.loading(
+                      context: context,
+                      message: 'Fetching data...',
+                      future: Future<String>.delayed(
+                        const Duration(seconds: 2),
+                        () => 'Data loaded',
+                      ),
+                    );
+                    if (!context.mounted) return;
+                    ThingToast.success(
+                      context: context,
+                      message: 'Data loaded',
+                    );
+                  },
+                  child: const Text('Loading with Future'),
+                ),
+                FilledButton(
+                  onPressed: () async {
+                    final ToastHandle loadingToast = ThingToast.showLoading(
+                      context: context,
+                      message: 'Saving...',
+                    );
+                    try {
+                      await Future<void>.delayed(const Duration(seconds: 2));
+                      if (!context.mounted) return;
+                      ThingToast.success(context: context, message: 'Saved');
+                    } finally {
+                      loadingToast.dismiss();
+                    }
+                  },
+                  child: const Text('Loading with handle'),
                 ),
               ],
             ),
