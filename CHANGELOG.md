@@ -1,6 +1,8 @@
+## 1.5.2
+* Fix flutter/material deprecation by replacing it with material_ui
+
 ## 1.5.1
 * Adjust leading padding
-* Fix flutter/material deprecation by replacing it with material_ui
 
 ## 1.5.0
 * Add `ThingToast.showLoading()` with a `ToastHandle` for manually dismissing a loading toast.
