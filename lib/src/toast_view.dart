@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:motor/motor.dart';
 
 import 'toast.dart';
@@ -256,8 +256,8 @@ class _Pill extends StatelessWidget {
           // height: 8dp around the 32dp chip, or 14dp around the 20dp
           // body medium line when there is no chip.
           padding: icon != null || snack.isLoading
-              ? const .fromSTEB(8, 8, 20, 8)
-              : const .symmetric(horizontal: 20, vertical: 14),
+              ? const .fromSTEB(4, 4, 20, 4)
+              : const .symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisSize: .min,
             spacing: 12,

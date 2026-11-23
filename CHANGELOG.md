@@ -1,3 +1,6 @@
+## 1.5.1
+* Adjust leading padding
+
 ## 1.5.0
 * Add `ThingToast.showLoading()` with a `ToastHandle` for manually dismissing a loading toast.
 * Add `ThingToast.loading()` to show a loading toast for the lifetime of a `Future`.

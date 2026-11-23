@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:thing_toast/thing_toast.dart';
 
 void main() {
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     ThingToast.info(
                       context: context,
-                      maxLines: 3,
+                      maxLines: 2,
                       message: "This is the wallhack. fsosdafhasopoacaosoocvasoioidasui caiviaisus vasisidsai vasidsadisai vasidasdoi",
                       icon: Icons.wallet,
                     );
