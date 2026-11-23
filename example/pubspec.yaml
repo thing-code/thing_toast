@@ -15,8 +15,8 @@ dependencies:
 
   thing_toast: any
 
-  cupertino_ui: any
-  material_ui: any
+  cupertino_ui: 1.1.7
+  material_ui: 1.11.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
