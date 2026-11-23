@@ -1,3 +1,6 @@
+## 1.5.2
+* Fix flutter/material deprecation by replacing it with material_ui
+
 ## 1.5.1
 * Adjust leading padding
 
